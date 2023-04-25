@@ -1,5 +1,6 @@
 package com.sabbelkrabbe.mymensanotification.receivers
 
+import android.Manifest
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,9 +9,11 @@ import android.content.BroadcastReceiver
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.android.volley.Request
@@ -23,7 +26,7 @@ import com.sabbelkrabbe.mymensanotification.R
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Period
-import java.util.*
+import java.util.Calendar
 
 class AlarmReceiver : BroadcastReceiver() {
     private val CHANNEL_ID = "10"
@@ -31,7 +34,10 @@ class AlarmReceiver : BroadcastReceiver() {
         "https://www.studierendenwerk-kassel.de/speiseplan/mensa-71-wilhelmshoeher-allee/"
 
     override fun onReceive(context: Context, intent: Intent) {
-        val prefs = context.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
+        val prefs = context.getSharedPreferences(
+            "com.sabbelkrabbe.mymensanotification",
+            Context.MODE_PRIVATE
+        )
         prefs.edit().putInt("test", 12345).apply()
 
         Log.d(TAG, "onReceive: Alarm received")
@@ -64,6 +70,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun checkForInternetConnection(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
@@ -102,6 +109,23 @@ class AlarmReceiver : BroadcastReceiver() {
 
         with(NotificationManagerCompat.from(context)) {
             // notificationId is a unique int for each notification that you must define
+
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                Toast.makeText(context, "Please enable notifications", Toast.LENGTH_SHORT).show()
+                return
+            }
+
             notify(15687164, builder.build())
         }
     }
@@ -113,7 +137,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val descriptionText =
             "Benachrichtigung zum heutigen Menü"//getString(R.string.channel_description)
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(CHANNEL_ID.toString(), name, importance).apply {
+        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
             description = descriptionText
         }
         // Register the channel with the system
@@ -136,28 +160,34 @@ class AlarmReceiver : BroadcastReceiver() {
 
         if (false && reset) {
             val alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
-                PendingIntent.getBroadcast(context,
+                PendingIntent.getBroadcast(
+                    context,
                     requestCode,
                     intent,
-                    PendingIntent.FLAG_IMMUTABLE)
+                    PendingIntent.FLAG_IMMUTABLE
+                )
             }
 
             alarmMgr.cancel(alarmIntent)
         }
 
-        val prefs = context.getSharedPreferences("com.sabbelkrabbe.mymensanotification",
-            Context.MODE_PRIVATE)
+        val prefs = context.getSharedPreferences(
+            "com.sabbelkrabbe.mymensanotification",
+            Context.MODE_PRIVATE
+        )
 
 
         if (true || prefs.getBoolean(getDayOfWeek(day), true)) {
             val alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
-                PendingIntent.getBroadcast(context,
+                PendingIntent.getBroadcast(
+                    context,
                     requestCode,
                     intent,
-                    PendingIntent.FLAG_IMMUTABLE)
+                    PendingIntent.FLAG_IMMUTABLE
+                )
             }
 
-            val date = LocalDate.now() + Period.ofDays(requestCode)
+            LocalDate.now() + Period.ofDays(requestCode)
 
             val cal = Calendar.getInstance()
             cal.timeInMillis = System.currentTimeMillis()
