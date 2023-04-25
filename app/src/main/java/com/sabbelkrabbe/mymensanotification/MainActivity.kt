@@ -25,11 +25,11 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val url =
-        "https://www.studierendenwerk-kassel.de/speiseplaene/mensa-71-wilhelmshoeher-allee"
-
+    private lateinit var url: String
 
     private lateinit var binding: ActivityMainBinding
+    lateinit var week: Array<Day?>
+    lateinit var day: DayOfWeek
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +38,35 @@ class MainActivity : AppCompatActivity() {
         val view: View = binding.root
         setContentView(view)
 
-        val prefs = this.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
+        url = getString(R.string.menu_website)
+
+        val prefs =
+            this.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
 //        prefs.edit().putInt("test", 12345).apply()
         Log.d(TAG, "onCreate: " + prefs.getInt("test", 0))
 
         initCards()
+        initButtons()
+    }
+
+    private fun initButtons() {
+        day = LocalDate.now().dayOfWeek
+        binding.txtDay.text = DayConverter().getDay(resources, day)
+
+        binding.btnNextDay.setOnClickListener {
+            if (day < DayOfWeek.FRIDAY) {
+                day = day.plus(1)
+                setFoodCards(week[day.value - 1]!!)
+                binding.txtDay.text = DayConverter().getDay(resources, day)
+            }
+        }
+        binding.btnPrevDay.setOnClickListener {
+            if (day > DayOfWeek.MONDAY) {
+                day = day.minus(1)
+                setFoodCards(week[day.value - 1]!!)
+                binding.txtDay.text = DayConverter().getDay(resources, day)
+            }
+        }
     }
 
     private fun initCards() {
@@ -53,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             val stringRequest = StringRequest(
                 Request.Method.GET, url,
                 { response ->
-                    val week = Menu().getWeek(response)!!
+                    week = Menu().getWeek(response)
                     val dayOfWeek = LocalDate.now().dayOfWeek
 
                     if (dayOfWeek < DayOfWeek.SATURDAY) {
@@ -173,15 +197,24 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.btn_createNotification -> {
                 val now = Calendar.getInstance()
-                AlarmReceiver().setNotificationAlarm(this, now.get(Calendar.DAY_OF_WEEK),now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE) + 1,0,false)
+                AlarmReceiver().setNotificationAlarm(
+                    this,
+                    now.get(Calendar.DAY_OF_WEEK),
+                    now.get(Calendar.HOUR_OF_DAY),
+                    now.get(Calendar.MINUTE) + 1,
+                    0,
+                    false
+                )
                 AlarmReceiver().makeNotification(this)
                 true
             }
+
             R.id.btn_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

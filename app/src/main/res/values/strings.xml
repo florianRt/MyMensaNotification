@@ -15,4 +15,14 @@
     <string name="wednesday">Wed</string>
     <string name="tuesday">Tue</string>
     <string name="monday">Mon</string>
+    <string name="menu_website" translatable="false">https://www.studierendenwerk-kassel.de/speiseplaene/mensa-71-wilhelmshoeher-allee</string>
+    <string name="next_day">Next</string>
+    <string name="prev_day">Prev</string>
+    <string name="monday_name">Monday</string>
+    <string name="tuesday_name">Tuesday</string>
+    <string name="wednesday_name">Wednesday</string>
+    <string name="thursday_name">Thursday</string>
+    <string name="friday_name">Friday</string>
+    <string name="saturday_name">Saturday</string>
+    <string name="sunday_name">Sunday</string>
 </resources>

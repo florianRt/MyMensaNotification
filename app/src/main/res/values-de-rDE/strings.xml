@@ -11,4 +11,13 @@
     <string name="wednesday">Mi</string>
     <string name="tuesday">Di</string>
     <string name="monday">Mo</string>
+    <string name="next_day">Nächster</string>
+    <string name="prev_day">Vorheriger</string>
+    <string name="monday_name">Montag</string>
+    <string name="tuesday_name">Dienstag</string>
+    <string name="wednesday_name">Mittwoch</string>
+    <string name="thursday_name">Donnerstag</string>
+    <string name="friday_name">Freitag</string>
+    <string name="saturday_name">Samstag</string>
+    <string name="sunday_name">Sonntag</string>
 </resources>

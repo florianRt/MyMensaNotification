@@ -50,13 +50,13 @@ class SettingsActivity : AppCompatActivity() {
         binding.btnConfirm.setOnClickListener {
             val prefs = this.getSharedPreferences("com.sabbelkrabbe.mymensanotification",
                 Context.MODE_PRIVATE).also {
-                it.edit().putBoolean("monday", binding.chBMonday.isChecked)
-                    .putBoolean("tuesday", binding.chBTuesday.isChecked)
-                    .putBoolean("wednesday", binding.chBWednesday.isChecked)
-                    .putBoolean("thursday", binding.chBThursday.isChecked)
-                    .putBoolean("friday", binding.chBFriday.isChecked)
-                    .putBoolean("saturday", binding.chBSaturday.isChecked)
-                    .putBoolean("sunday", binding.chBSunday.isChecked)
+                it.edit().putBoolean(DayOfWeek.MONDAY.name, binding.chBMonday.isChecked)
+                    .putBoolean(DayOfWeek.TUESDAY.name, binding.chBTuesday.isChecked)
+                    .putBoolean(DayOfWeek.WEDNESDAY.name, binding.chBWednesday.isChecked)
+                    .putBoolean(DayOfWeek.THURSDAY.name, binding.chBThursday.isChecked)
+                    .putBoolean(DayOfWeek.FRIDAY.name, binding.chBFriday.isChecked)
+                    .putBoolean(DayOfWeek.SATURDAY.name, binding.chBSaturday.isChecked)
+                    .putBoolean(DayOfWeek.SUNDAY.name, binding.chBSunday.isChecked)
                     .putInt("hour", binding.alarmTimePicker.hour)
                     .putInt("minute", binding.alarmTimePicker.minute)
                     .apply()

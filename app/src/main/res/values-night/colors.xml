@@ -21,5 +21,8 @@
     <color name="price_text">@color/text</color>
     <color name="hint_text">#616161</color>
 
+    <color name="day_text">@color/white</color>
+
+
     <color name="card_background">@color/black</color>
 </resources>

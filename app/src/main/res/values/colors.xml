@@ -21,5 +21,7 @@
     <color name="price_text">@color/text</color>
     <color name="hint_text">#616161</color>
 
+    <color name="day_text">@color/kassel_pink</color>
+
     <color name="card_background">#00FFFFFF</color>
 </resources>
