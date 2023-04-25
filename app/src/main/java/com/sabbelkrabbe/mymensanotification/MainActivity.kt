@@ -26,7 +26,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private val url =
-        "https://www.studierendenwerk-kassel.de/speiseplan/mensa-71-wilhelmshoeher-allee/"
+        "https://www.studierendenwerk-kassel.de/speiseplaene/mensa-71-wilhelmshoeher-allee"
 
 
     private lateinit var binding: ActivityMainBinding
