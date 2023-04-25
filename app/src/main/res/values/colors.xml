@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="kassel_pink">#c7105c</color>
+    <color name="kassel_pink_dark">#980D44</color>
+    <color name="kassel_blue">#8bb9db</color>
+    <color name="kassel_blue_dark">#5296C8</color>
+    <color name="kassel_green">#153824</color>
+    <color name="kassel_green_accent">#58a696</color>
+
+    <color name="background">#FFF</color>
+
+    <color name="text">#000</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- MainActivity -->
+    <color name="title_background">@color/kassel_pink</color>
+    <color name="title_text">@color/white</color>
+    <color name="food_text">@color/kassel_pink</color>
+    <color name="price_text">@color/text</color>
+    <color name="hint_text">#616161</color>
+
+    <color name="card_background">#00FFFFFF</color>
+</resources>
