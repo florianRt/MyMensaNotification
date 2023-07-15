@@ -1,24 +1,32 @@
 package com.sabbelkrabbe.mymensanotification
 
-import android.app.*
+import android.app.AlarmManager
+import android.app.AlertDialog
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
-import androidx.annotation.RequiresApi
+import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.sabbelkrabbe.mymensanotification.databinding.ActivitySettingsBinding
 import com.sabbelkrabbe.mymensanotification.notification.channelID
 import com.sabbelkrabbe.mymensanotification.notification.messageExtra
 import com.sabbelkrabbe.mymensanotification.notification.notificationID
 import com.sabbelkrabbe.mymensanotification.notification.titleExtra
-import com.sabbelkrabbe.mymensanotification.receivers.AlarmReceiver
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: ActivitySettingsBinding
 
@@ -27,6 +35,17 @@ class SettingsActivity : AppCompatActivity() {
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.mensa_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerMensa.adapter = adapter
+        }
+
+        binding.spinnerMensa.onItemSelectedListener = this
 
         createNotificationChannel()
         val prefs = this.getSharedPreferences("com.sabbelkrabbe.mymensanotification",
@@ -81,7 +100,7 @@ class SettingsActivity : AppCompatActivity() {
 ////                1,
 ////                true)*/
 
-            finish()
+            //finish()
         }
     }
 
@@ -148,5 +167,18 @@ class SettingsActivity : AppCompatActivity() {
         channel.description = desc
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        val selection = p0?.getItemAtPosition(p2)
+        Log.d(TAG, "onItemSelected: $selection")
+        this.getSharedPreferences("com.sabbelkrabbe.mymensanotification",
+            Context.MODE_PRIVATE).also {
+            it.edit().putString("Mensa", selection.toString()).apply()
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        //Nothing
     }
 }

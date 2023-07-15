@@ -20,15 +20,18 @@ import com.sabbelkrabbe.mymensanotification.databinding.ActivityMainBinding
 import com.sabbelkrabbe.mymensanotification.receivers.AlarmReceiver
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.util.*
+import java.util.Calendar
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var url: String
+    private lateinit var urlMainMensa: String
+    private lateinit var urlMensa71: String
+    private lateinit var selectedMensa: String
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var week: Array<Day?>
+    lateinit var weekMenuMensa71: Array<Day?>
+    lateinit var weekMenuMainMensa: Array<Day?>
     lateinit var day: DayOfWeek
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +41,15 @@ class MainActivity : AppCompatActivity() {
         val view: View = binding.root
         setContentView(view)
 
-        url = getString(R.string.menu_website)
+        urlMensa71 = getString(R.string.menu_website_mensa_71)
+        urlMainMensa = getString(R.string.menu_website_main_mensa)
+
+
 
         val prefs =
             this.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
 //        prefs.edit().putInt("test", 12345).apply()
+        updateMensa()
         Log.d(TAG, "onCreate: " + prefs.getInt("test", 0))
 
         initCards()
@@ -54,16 +61,33 @@ class MainActivity : AppCompatActivity() {
         binding.txtDay.text = DayConverter().getDay(resources, day)
 
         binding.btnNextDay.setOnClickListener {
+            updateMensa()
             if (day < DayOfWeek.FRIDAY) {
                 day = day.plus(1)
-                setFoodCards(week[day.value - 1]!!)
+                if(selectedMensa.equals("Mensa 71"))
+                    setFoodCards(weekMenuMensa71[day.value - 1]!!)
+                else
+                    setFoodCards(weekMenuMainMensa[day.value - 1]!!)
+//                setFoodCards(weekMenuMensa71[day.value - 1]!!)
+                binding.txtDay.text = DayConverter().getDay(resources, day)
+            }
+
+            if (selectedMensa == "Zentralmensa" && day == DayOfWeek.FRIDAY) {
+                day = day.plus(1)
+                setFoodCards(weekMenuMainMensa[day.value - 1]!!)
                 binding.txtDay.text = DayConverter().getDay(resources, day)
             }
         }
+
         binding.btnPrevDay.setOnClickListener {
+            updateMensa()
             if (day > DayOfWeek.MONDAY) {
                 day = day.minus(1)
-                setFoodCards(week[day.value - 1]!!)
+                if(selectedMensa == "Mensa 71")
+                    setFoodCards(weekMenuMensa71[day.value - 1]!!)
+                else
+                    setFoodCards(weekMenuMainMensa[day.value - 1]!!)
+//                setFoodCards(weekMenuMensa71[day.value - 1]!!)
                 binding.txtDay.text = DayConverter().getDay(resources, day)
             }
         }
@@ -75,18 +99,36 @@ class MainActivity : AppCompatActivity() {
         // Request a string response from the provided URL.
         if (checkForInternetConnection()) {
             val stringRequest = StringRequest(
-                Request.Method.GET, url,
+                Request.Method.GET, urlMensa71,
                 { response ->
-                    week = Menu().getWeek(response)
+                    weekMenuMensa71 = Menu().getWeek(response, 5)
+
                     val dayOfWeek = LocalDate.now().dayOfWeek
 
-                    if (dayOfWeek < DayOfWeek.SATURDAY) {
-                        setFoodCards(week[dayOfWeek.value - 1]!!)
+                    if (dayOfWeek < DayOfWeek.SATURDAY && selectedMensa == "Mensa 71") {
+                        setFoodCards(weekMenuMensa71[dayOfWeek.value - 1]!!)
+                    }
+                },
+                { Log.d(TAG, "makeNotification: Failed to send request") })
+            // Add the request to the RequestQueue.
+
+
+            val stringRequest2 = StringRequest(
+                Request.Method.GET, urlMainMensa,
+                { response ->
+                    weekMenuMainMensa = Menu().getWeek(response, 6)
+
+                    val dayOfWeek = LocalDate.now().dayOfWeek
+
+                    if (dayOfWeek < DayOfWeek.SUNDAY && selectedMensa == "Main Mensa" || dayOfWeek == DayOfWeek.SATURDAY) {
+                        supportActionBar?.title = "Zentralmensa"
+                        setFoodCards(weekMenuMainMensa[dayOfWeek.value - 1]!!)
                     }
                 },
                 { Log.d(TAG, "makeNotification: Failed to send request") })
             // Add the request to the RequestQueue.
             queue.add(stringRequest)
+            queue.add(stringRequest2)
         }
     }
 
@@ -205,7 +247,17 @@ class MainActivity : AppCompatActivity() {
                     0,
                     false
                 )
-                AlarmReceiver().makeNotification(this)
+
+                val prefs =
+                    this.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
+                selectedMensa = prefs.getString("Mensa", "Mensa 71")!!
+
+                if (selectedMensa == "Mensa 71")
+                    AlarmReceiver().makeNotification(this, 0)
+                else
+                    AlarmReceiver().makeNotification(this, 1)
+
+//                AlarmReceiver().makeNotification(this, )
                 true
             }
 
@@ -217,5 +269,38 @@ class MainActivity : AppCompatActivity() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        updateMensa()
+
+        day = LocalDate.now().dayOfWeek
+        binding.txtDay.text = DayConverter().getDay(resources, day)
+
+        if (day < DayOfWeek.FRIDAY) {
+            if(selectedMensa.equals("Mensa 71"))
+                setFoodCards(weekMenuMensa71[day.value - 1]!!)
+            else
+                setFoodCards(weekMenuMainMensa[day.value - 1]!!)
+//                setFoodCards(weekMenuMensa71[day.value - 1]!!)
+            binding.txtDay.text = DayConverter().getDay(resources, day)
+        }
+
+        if (day == DayOfWeek.SATURDAY) {
+            setFoodCards(weekMenuMainMensa[day.value - 1]!!)
+            binding.txtDay.text = DayConverter().getDay(resources, day)
+            supportActionBar?.title = "Zentralmensa"
+        }
+    }
+
+    private fun updateMensa(){
+        val prefs =
+            this.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
+        selectedMensa = prefs.getString("Mensa", "Mensa 71")!!
+
+        supportActionBar?.title = selectedMensa
+
+
     }
 }

@@ -15,7 +15,8 @@
     <string name="wednesday">Wed</string>
     <string name="tuesday">Tue</string>
     <string name="monday">Mon</string>
-    <string name="menu_website" translatable="false">https://www.studierendenwerk-kassel.de/speiseplaene/mensa-71-wilhelmshoeher-allee</string>
+    <string name="menu_website_mensa_71" translatable="false">https://www.studierendenwerk-kassel.de/speiseplaene/mensa-71-wilhelmshoeher-allee</string>
+    <string name="menu_website_main_mensa" translatable="false">https://www.studierendenwerk-kassel.de/speiseplaene/zentralmensa-arnold-bode-strasse</string>
     <string name="next_day">Next</string>
     <string name="prev_day">Prev</string>
     <string name="monday_name">Monday</string>

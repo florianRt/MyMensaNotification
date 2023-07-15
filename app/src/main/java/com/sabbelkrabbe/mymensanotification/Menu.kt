@@ -1,9 +1,9 @@
 package com.sabbelkrabbe.mymensanotification
 
 class Menu {
-     fun getWeek(htmlPage: String): Array<Day?> {
+     fun getWeek(htmlPage: String, size: Int): Array<Day?> {
 
-         var week = arrayOfNulls<Day>(5)
+         var week = arrayOfNulls<Day>(size)
          if(htmlPage.contains("Montag")) {
              val monday = htmlPage.substring(
                  htmlPage.indexOf("name=\"Montag\">"),
@@ -21,15 +21,29 @@ class Menu {
                  htmlPage.indexOf("name=\"Donnerstag\">"),
                  htmlPage.indexOf("name=\"Freitag\">")
              )
-             val friday = htmlPage.substring(
+             var friday = htmlPage.substring(
                  htmlPage.indexOf("name=\"Freitag\">"),
                  htmlPage.indexOf("<!--Speise_end-->")
              )
+
              week[0] = getDay(monday)
              week[1] = getDay(tuesday)
              week[2] = getDay(wednesday)
              week[3] = getDay(thursday)
+
+             if(week.size > 5){
+                 val saturday = htmlPage.substring(
+                     htmlPage.indexOf("name=\"Samstag\">"),
+                     htmlPage.indexOf("<!--Speise_end-->")
+                 )
+                 friday = htmlPage.substring(
+                     htmlPage.indexOf("name=\"Freitag\">"),
+                     htmlPage.indexOf("name=\"Samstag\">")
+                 )
+                 week[5] = getDay(saturday)
+             }
              week[4] = getDay(friday)
+
              week = cleanWeek(week)
          }
 

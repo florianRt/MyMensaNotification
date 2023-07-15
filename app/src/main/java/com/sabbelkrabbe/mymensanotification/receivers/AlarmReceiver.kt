@@ -30,8 +30,10 @@ import java.util.Calendar
 
 class AlarmReceiver : BroadcastReceiver() {
     private val CHANNEL_ID = "10"
-    private val url =
-        "https://www.studierendenwerk-kassel.de/speiseplan/mensa-71-wilhelmshoeher-allee/"
+    private val url = arrayOf(
+        "https://www.studierendenwerk-kassel.de/speiseplaene/mensa-71-wilhelmshoeher-allee",
+        "https://www.studierendenwerk-kassel.de/speiseplaene/zentralmensa-arnold-bode-strasse"
+    )
 
     override fun onReceive(context: Context, intent: Intent) {
         val prefs = context.getSharedPreferences(
@@ -43,24 +45,33 @@ class AlarmReceiver : BroadcastReceiver() {
         Log.d(TAG, "onReceive: Alarm received")
 //        Toast.makeText(context, "Alarm received", Toast.LENGTH_LONG).show()
 
-        makeNotification(context)
+        val selectedMensa = prefs.getString("Mensa", "Mensa 71")!!
+
+        if(selectedMensa == "Mensa 71") {
+            makeNotification(context, 0)
+        } else {
+            makeNotification(context, 1)
+        }
+//        makeNotification(context)
     }
 
-    fun makeNotification(context: Context) {
+    fun makeNotification(context: Context, mensa: Int) {
         createNotificationChannel(context)
+
+
 
         val queue = Volley.newRequestQueue(context)
         // Request a string response from the provided URL.
         if (checkForInternetConnection(context)) {
             val stringRequest = StringRequest(
-                Request.Method.GET, url,
+                Request.Method.GET, url[mensa],
                 { response ->
-                    val week = Menu().getWeek(response)
+                    val week = Menu().getWeek(response, 5 + mensa)
                     val dayOfWeek = LocalDate.now().dayOfWeek
 
-                    Log.d(TAG, "makeNotification: Download successful")
+                    Log.d(TAG, "makeNotification: Download successful + $week + $dayOfWeek + $mensa")
 
-                    if (dayOfWeek < DayOfWeek.SATURDAY) {
+                    if (dayOfWeek < DayOfWeek.SATURDAY + mensa.toLong()) {
                         showNotification(week!![dayOfWeek.value - 1]!!, context)
                     }
                 },
