@@ -28,6 +28,8 @@ import java.time.LocalDate
 import java.time.Period
 import java.util.Calendar
 
+// TODO: fix notifications not showing up
+
 class AlarmReceiver : BroadcastReceiver() {
     private val CHANNEL_ID = "10"
     private val url = arrayOf(
@@ -126,7 +128,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // TODO: Consider calling
+                // Consider calling
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
                 //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
