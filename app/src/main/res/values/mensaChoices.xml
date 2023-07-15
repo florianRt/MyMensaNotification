@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mensa_array">
+        <item>Mensa 71</item>
+        <item>Zentralmensa</item>
+    </string-array>
+</resources>
