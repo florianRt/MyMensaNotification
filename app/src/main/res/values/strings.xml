@@ -26,4 +26,6 @@
     <string name="friday_name">Friday</string>
     <string name="saturday_name">Saturday</string>
     <string name="sunday_name">Sunday</string>
+    <string name="add_widget" translatable="false">Add widget</string>
+    <string name="app_widget_description" translatable="false">This is an app widget description</string>
 </resources>

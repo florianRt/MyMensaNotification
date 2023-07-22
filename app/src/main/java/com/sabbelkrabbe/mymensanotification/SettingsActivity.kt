@@ -26,6 +26,7 @@ import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 
+
 class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: ActivitySettingsBinding
@@ -35,6 +36,9 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val prefs = this.getSharedPreferences("com.sabbelkrabbe.mymensanotification",
+            Context.MODE_PRIVATE)
 
         ArrayAdapter.createFromResource(
             this,
@@ -47,9 +51,14 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 
         binding.spinnerMensa.onItemSelectedListener = this
 
+        val mensaChoices = resources.getStringArray(R.array.mensa_array)
+        var selection = prefs.getString("Mensa", "Mensa 71")?.let { HelperMethods.getIndex(mensaChoices, it) }
+        if(selection == null){
+            selection = 0
+        }
+        binding.spinnerMensa.setSelection(selection)
+
         createNotificationChannel()
-        val prefs = this.getSharedPreferences("com.sabbelkrabbe.mymensanotification",
-            Context.MODE_PRIVATE)
 
         if (DateFormat.is24HourFormat(this)) {
             binding.alarmTimePicker.setIs24HourView(true)

@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity() {
         urlMensa71 = getString(R.string.menu_website_mensa_71)
         urlMainMensa = getString(R.string.menu_website_main_mensa)
 
-
-
         val prefs =
             this.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
 //        prefs.edit().putInt("test", 12345).apply()
