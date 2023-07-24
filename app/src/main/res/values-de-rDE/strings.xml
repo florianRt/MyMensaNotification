@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MensaMenu</string>
-    <string name="price_group_student">Studierende</string>
+    <string name="title_activity_settings">@string/settings</string>
+    <string name="price_group_student">Preise</string>
     <string name="settings">Einstellungen</string>
     <string name="settings_confirm">Bestätigen</string>
     <string name="sunday">So</string>
@@ -20,4 +21,10 @@
     <string name="friday_name">Freitag</string>
     <string name="saturday_name">Samstag</string>
     <string name="sunday_name">Sonntag</string>
+    <string name="app_widget_description">Zeigt das Menü des Tages</string>
+    <string name="loading">lädt…</string>
+    <string name="loading_hints">…</string>
+    <string name="food_3">Essen 3</string>
+    <string name="food_2">Essen 2</string>
+    <string name="food_1">Essen 1</string>
 </resources>
