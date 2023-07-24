@@ -7,6 +7,8 @@
     <color name="kassel_green">#153824</color>
     <color name="kassel_green_accent">#58a696</color>
 
+    <color name="accent">#8bb9db</color>
+
     <color name="background">#303030</color>
 
     <color name="text">#FFF</color>

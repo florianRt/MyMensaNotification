@@ -16,8 +16,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMensaNotification">
         <receiver
+            android:name=".MenuOverview"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/menu_overview_info" />
+        </receiver>
+
+        <receiver
             android:name=".notification.Notification"
-            android:enabled="true"/>
+            android:enabled="true" />
 
         <activity
             android:name=".MainActivity"
@@ -31,7 +43,7 @@
         <activity
             android:name=".SettingsActivity"
             android:exported="true"
-            android:label="@string/title_activity_settings"/>
+            android:label="@string/title_activity_settings" />
 
         <receiver
             android:name=".receivers.DeviceBootReceiver"
@@ -41,5 +53,4 @@
             </intent-filter>
         </receiver>
     </application>
-
 </manifest>

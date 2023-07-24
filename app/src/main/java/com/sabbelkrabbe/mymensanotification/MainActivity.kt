@@ -4,15 +4,12 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Display
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.window.layout.WindowMetricsCalculator
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -44,8 +41,6 @@ class MainActivity : AppCompatActivity() {
         urlMensa71 = getString(R.string.menu_website_mensa_71)
         urlMainMensa = getString(R.string.menu_website_main_mensa)
 
-
-
         val prefs =
             this.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
 //        prefs.edit().putInt("test", 12345).apply()
@@ -64,11 +59,10 @@ class MainActivity : AppCompatActivity() {
             updateMensa()
             if (day < DayOfWeek.FRIDAY) {
                 day = day.plus(1)
-                if(selectedMensa.equals("Mensa 71"))
+                if (selectedMensa == "Mensa 71")
                     setFoodCards(weekMenuMensa71[day.value - 1]!!)
                 else
                     setFoodCards(weekMenuMainMensa[day.value - 1]!!)
-//                setFoodCards(weekMenuMensa71[day.value - 1]!!)
                 binding.txtDay.text = DayConverter().getDay(resources, day)
             }
 
@@ -83,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             updateMensa()
             if (day > DayOfWeek.MONDAY) {
                 day = day.minus(1)
-                if(selectedMensa == "Mensa 71")
+                if (selectedMensa == "Mensa 71")
                     setFoodCards(weekMenuMensa71[day.value - 1]!!)
                 else
                     setFoodCards(weekMenuMainMensa[day.value - 1]!!)
@@ -96,9 +90,12 @@ class MainActivity : AppCompatActivity() {
     private fun initCards() {
 
         val queue = Volley.newRequestQueue(this)
+
+        val stringRequests: Array<StringRequest?> = arrayOfNulls(2)
+
         // Request a string response from the provided URL.
         if (checkForInternetConnection()) {
-            val stringRequest = StringRequest(
+            stringRequests[0] = StringRequest(
                 Request.Method.GET, urlMensa71,
                 { response ->
                     weekMenuMensa71 = Menu().getWeek(response, 5)
@@ -110,10 +107,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 },
                 { Log.d(TAG, "makeNotification: Failed to send request") })
-            // Add the request to the RequestQueue.
 
-
-            val stringRequest2 = StringRequest(
+            stringRequests[1] = StringRequest(
                 Request.Method.GET, urlMainMensa,
                 { response ->
                     weekMenuMainMensa = Menu().getWeek(response, 6)
@@ -127,88 +122,43 @@ class MainActivity : AppCompatActivity() {
                 },
                 { Log.d(TAG, "makeNotification: Failed to send request") })
             // Add the request to the RequestQueue.
-            queue.add(stringRequest)
-            queue.add(stringRequest2)
+
+            for (request in stringRequests) {
+                queue.add(request)
+            }
         }
     }
 
     private fun setFoodCards(day: Day) {
-        val display: Display = windowManager.defaultDisplay
+        binding.foodLoading.visibility = View.INVISIBLE
 
-        val width = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val windowMetrics: androidx.window.layout.WindowMetrics =
-                WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
-            windowMetrics.bounds.width()
-        } else {
-            display.width
-        }
+        val titles = arrayOf(binding.essen1Title, binding.essen2Title, binding.essen3Title)
+        val names = arrayOf(binding.essen1Name, binding.essen2Name, binding.essen3Name)
+        val prices = arrayOf(binding.essen1Price, binding.essen2Price, binding.essen3Price)
+        val hints = arrayOf(binding.essen1Hints, binding.essen2Hints, binding.essen3Hints)
+        val cards = arrayOf(binding.essen1, binding.essen2, binding.essen3)
 
-        if (day.foods!!.isNotEmpty()) {
-            val food = day.foods!![0]
-            binding.essen1Title.text = buildString {
+        for (i in day.foods!!.indices) {
+            @Suppress("SENSELESS_COMPARISON")
+            if (day.foods!![i] == null) {
+                cards[i].visibility = View.GONE
+                continue
+            }
+            val food = day.foods!![i]
+            titles[i].text = buildString {
                 append("Essen ")
-                append(1)
+                append(i + 1)
                 append(getTextToDiet(food.diet))
             }
-            binding.essen1Name.text = food.name
-            binding.essen1Price.text = buildString { append(food.price) }
+            names[i].text = food.name
+            prices[i].text = buildString { append(food.price) }
             var hintList = ""
             for (hint in food.hints) {
                 hintList += " ${hint.name}"
             }
-            binding.essen1Hints.text = hintList
-            binding.essen1.layoutParams.width = width - dpToPx(20)
-        } else {
-            binding.essen1.visibility = View.GONE
-        }
-        if (day.foods!!.size > 1) {
-            val food = day.foods!![1]
-            binding.essen2.visibility = View.VISIBLE
-            binding.essen2Title.text = buildString {
-                append("Essen ")
-                append(2)
-                append(getTextToDiet(food.diet))
-            }
-            binding.essen2Name.text = food.name
-            binding.essen2Price.text = buildString {
-                append(food.price)
-            }
-            var hintList = ""
-            for (hint in food.hints) {
-                hintList += " ${hint.name}"
-            }
-            binding.essen2Hints.text = hintList
-            binding.essen2.layoutParams.width = width - dpToPx(20)
-        } else {
-            binding.essen2.visibility = View.GONE
+            hints[i].text = hintList
         }
 
-        if (day.foods!!.size > 2) {
-            val food = day.foods!![2]
-            binding.essen3.visibility = View.VISIBLE
-            binding.essen3Title.text = buildString {
-                append("Essen ")
-                append(3)
-                append(getTextToDiet(food.diet))
-            }
-            binding.essen3Name.text = food.name
-            binding.essen3Price.text = buildString {
-                append(food.price)
-                append("€")
-            }
-            var hintList = ""
-            for (hint in food.hints) {
-                hintList += " ${hint.name}"
-            }
-            binding.essen3Hints.text = hintList
-            binding.essen3.layoutParams.width = width - dpToPx(20)
-        } else {
-            binding.essen3.visibility = View.GONE
-        }
-    }
-
-    private fun dpToPx(i: Int): Int {
-        return (i * resources.displayMetrics.density).toInt()
     }
 
     private fun getTextToDiet(diet: Int): String {
@@ -220,6 +170,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @Suppress("DEPRECATION")
     private fun checkForInternetConnection(): Boolean {
         val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
@@ -249,15 +200,16 @@ class MainActivity : AppCompatActivity() {
                 )
 
                 val prefs =
-                    this.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
+                    this.getSharedPreferences(
+                        "com.sabbelkrabbe.mymensanotification",
+                        Context.MODE_PRIVATE
+                    )
                 selectedMensa = prefs.getString("Mensa", "Mensa 71")!!
 
                 if (selectedMensa == "Mensa 71")
                     AlarmReceiver().makeNotification(this, 0)
                 else
                     AlarmReceiver().makeNotification(this, 1)
-
-//                AlarmReceiver().makeNotification(this, )
                 true
             }
 
@@ -279,11 +231,10 @@ class MainActivity : AppCompatActivity() {
         binding.txtDay.text = DayConverter().getDay(resources, day)
 
         if (day < DayOfWeek.FRIDAY) {
-            if(selectedMensa.equals("Mensa 71"))
+            if (selectedMensa == "Mensa 71")
                 setFoodCards(weekMenuMensa71[day.value - 1]!!)
             else
                 setFoodCards(weekMenuMainMensa[day.value - 1]!!)
-//                setFoodCards(weekMenuMensa71[day.value - 1]!!)
             binding.txtDay.text = DayConverter().getDay(resources, day)
         }
 
@@ -294,13 +245,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateMensa(){
+    private fun updateMensa() {
         val prefs =
             this.getSharedPreferences("com.sabbelkrabbe.mymensanotification", Context.MODE_PRIVATE)
         selectedMensa = prefs.getString("Mensa", "Mensa 71")!!
 
         supportActionBar?.title = selectedMensa
-
-
     }
 }

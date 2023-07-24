@@ -4,4 +4,8 @@
         <item>Mensa 71</item>
         <item>Zentralmensa</item>
     </string-array>
+    <string-array name="mensa_urls">
+        <item>https://www.studierendenwerk-kassel.de/speiseplaene/mensa-71-wilhelmshoeher-allee</item>
+        <item>https://www.studierendenwerk-kassel.de/speiseplaene/zentralmensa-arnold-bode-strasse</item>
+    </string-array>
 </resources>

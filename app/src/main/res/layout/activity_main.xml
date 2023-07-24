@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:paddingTop="10dp">
+    tools:context=".MainActivity">
 
     <Button
         android:id="@+id/btn_send"
@@ -24,346 +23,359 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+    android:id="@+id/food_loading"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="visible"
+    android:indeterminate="true"
+    app:indicatorColor="@color/accent"
+    app:layout_constraintTop_toBottomOf="@+id/app_bar_pdfview"/>
 
     <TextView
         android:id="@+id/txt_day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/loading"
         android:textColor="@color/day_text"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:text="Monday" />
+        android:textStyle="bold" />
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="3dp"
-        app:cardUseCompatPadding="true">
-
-    <LinearLayout
-        android:id="@+id/essen1"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp"
-
-        android:background="@color/card_background">
-
-        <TextView
-            android:id="@+id/essen1_title"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/title_background"
-            android:padding="2dp"
-            android:paddingStart="7dp"
-
-            android:text="Essen 1"
-            android:textColor="@color/design_default_color_on_primary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/essen1_name"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-
-            android:text="Ofenfrische Sesam-Blechkartoffeln an hausgemachtem Kartotenmus"
-            android:textColor="@color/food_text"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        app:cardCornerRadius="3dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
+            android:id="@+id/essen1"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:background="@color/card_background"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            tools:layout_editor_absoluteX="1dp">
+
+            <TextView
+                android:id="@+id/essen1_title"
+
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:background="@color/title_background"
+                android:padding="2dp"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/price_guideline1"
+                android:text="@string/food_1"
+                android:textColor="@color/design_default_color_on_primary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
+            <TextView
+                android:id="@+id/essen1_name"
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
 
-                <TextView
-                    android:id="@+id/essen1_price_group"
+                android:text="@string/loading"
+                android:textColor="@color/food_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                    android:text="@string/price_group_student"
-                    android:textColor="@color/text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/price_guideline1"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/price_guideline1"
 
-                <TextView
-                    android:id="@+id/essen1_price"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="2,50€"
-                    android:textColor="@color/text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.18"
-                    app:layout_constraintStart_toStartOf="@+id/price_guideline1"
-
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/essen1_price_group"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/price_group_student"
+                        android:textColor="@color/text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/price_guideline1"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/essen1_price"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/loading_hints"
+                        android:textColor="@color/text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.18"
+                        app:layout_constraintStart_toStartOf="@+id/price_guideline1"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/essen1_hints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:text="@string/loading_hints"
+                android:textAlignment="viewEnd" />
+
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/essen1_hints"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-
-            android:text="(V Kn, 40)"
-            android:textAlignment="viewEnd" />
-
-    </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="3dp"
-        app:cardUseCompatPadding="true">
-    <LinearLayout
-        android:id="@+id/essen2"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp"
-
-        android:background="@color/card_background">
-
-        <TextView
-            android:id="@+id/essen2_title"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/title_background"
-            android:padding="2dp"
-            android:paddingStart="7dp"
-
-            android:text="Essen 2"
-            android:textColor="@color/title_text"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/essen2_name"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-
-            android:text="Ofenfrische Sesam-Blechkartoffeln an hausgemachtem Kartotenmus"
-            android:textColor="@color/food_text"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        app:cardCornerRadius="3dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
+            android:id="@+id/essen2"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:background="@color/card_background"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            tools:layout_editor_absoluteX="1dp">
+
+            <TextView
+                android:id="@+id/essen2_title"
+
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:background="@color/title_background"
+                android:padding="2dp"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/price_guideline2"
+                android:text="@string/food_2"
+                android:textColor="@color/title_text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
+            <TextView
+                android:id="@+id/essen2_name"
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
 
-                <TextView
-                    android:id="@+id/essen2_price_group"
+                android:text="@string/loading"
+                android:textColor="@color/food_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                    android:text="@string/price_group_student"
-                    android:textColor="@color/text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/price_guideline2"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/price_guideline2"
 
-                <TextView
-                    android:id="@+id/essen2_price"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="2,50€"
-                    android:textColor="@color/text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.18"
-                    app:layout_constraintStart_toStartOf="@+id/price_guideline2"
-
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/essen2_price_group"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/price_group_student"
+                        android:textColor="@color/text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/price_guideline2"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/essen2_price"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/loading_hints"
+                        android:textColor="@color/text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.18"
+                        app:layout_constraintStart_toStartOf="@+id/price_guideline2"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/essen2_hints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:text="@string/loading_hints"
+                android:textAlignment="viewEnd" />
+
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/essen2_hints"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-
-            android:text="(V Kn, 40)"
-            android:textAlignment="viewEnd" />
-
-    </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="3dp"
-        app:cardUseCompatPadding="true">
-    <LinearLayout
-        android:id="@+id/essen3"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp"
-
-        android:background="@color/card_background">
-
-        <TextView
-            android:id="@+id/essen3_title"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/title_background"
-            android:padding="2dp"
-            android:paddingStart="7dp"
-
-            android:text="Essen 3"
-            android:textColor="@color/title_text"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/essen3_name"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-
-            android:text="Ofenfrische Sesam-Blechkartoffeln an hausgemachtem Kartotenmus"
-            android:textColor="@color/food_text"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        app:cardCornerRadius="3dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
+            android:id="@+id/essen3"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:background="@color/card_background"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            tools:layout_editor_absoluteX="1dp">
+
+            <TextView
+                android:id="@+id/essen3_title"
+
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:background="@color/title_background"
+                android:padding="2dp"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/price_guideline3"
+                android:text="@string/food_3"
+                android:textColor="@color/title_text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
+            <TextView
+                android:id="@+id/essen3_name"
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
 
-                <TextView
-                    android:id="@+id/essen3_price_group"
+                android:text="@string/loading"
+                android:textColor="@color/food_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                    android:text="@string/price_group_student"
-                    android:textColor="@color/text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/price_guideline3"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/price_guideline3"
 
-                <TextView
-                    android:id="@+id/essen3_price"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="2,50€"
-                    android:textColor="@color/text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.18"
-                    app:layout_constraintStart_toStartOf="@+id/price_guideline3"
-
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/essen3_price_group"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/price_group_student"
+                        android:textColor="@color/text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/price_guideline3"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/essen3_price"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/loading_hints"
+                        android:textColor="@color/text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.18"
+                        app:layout_constraintStart_toStartOf="@+id/price_guideline3"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/essen3_hints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+
+                android:text="@string/loading_hints"
+                android:textAlignment="viewEnd" />
+
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/essen3_hints"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-
-            android:text="(V Kn, 40)"
-            android:textAlignment="viewEnd" />
-
-    </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout

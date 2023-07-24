@@ -7,6 +7,8 @@
     <color name="kassel_green">#153824</color>
     <color name="kassel_green_accent">#58a696</color>
 
+    <color name="accent">#8bb9db</color>
+
     <color name="background">#FFF</color>
 
     <color name="text">#000</color>
@@ -24,4 +26,8 @@
     <color name="day_text">@color/kassel_pink</color>
 
     <color name="card_background">#00FFFFFF</color>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
 </resources>
